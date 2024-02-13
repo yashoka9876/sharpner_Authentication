@@ -1,14 +1,15 @@
 import { useContext, useRef } from 'react';
 import classes from './ProfileForm.module.css';
 import AuthContext from '../../store/auth-context';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 const ProfileForm = () => {
   const passwordInpurRef=useRef();
   const Ctx=useContext(AuthContext)
-
+  const history=useHistory();
   console.log(Ctx.token);
 
-  
+
   const passwordHandler=(event)=>{
     event.preventDefault();
     let enteredPassword=passwordInpurRef.current.value;
@@ -27,6 +28,7 @@ const ProfileForm = () => {
     ).then(res=>{
       return res.json()
     }).then(data=>{
+      history.push('/');
       console.log(data);
     }).catch(err=>{
       console.log(err);

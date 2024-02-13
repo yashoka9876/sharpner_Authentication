@@ -2,6 +2,7 @@ import { useState, useRef, useContext } from 'react';
 
 import classes from './AuthForm.module.css';
 import AuthContext from '../../store/auth-context';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -11,21 +12,24 @@ const AuthForm = () => {
 
   const Ctx=useContext(AuthContext);
 
+  const history=useHistory();
+
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
   };
 
   const submitHandler = (event)=>{
     event.preventDefault();
-    console.log("hai")
     const enteredEmail=emailInputRef.current.value;
     const enteredPassword=passwordInputRef.current.value;
     setIsLoding(true)
     let url;
     if(isLogin){
+      console.log(isLogin);
       //here we are logic the credential data
       url='https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDa_jbUsg5x1ywvKesSXurNjxjYY7Hn2BU'
     } else{
+      console.log(isLogin);
       // This one is when use create the stuff
       url='https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDa_jbUsg5x1ywvKesSXurNjxjYY7Hn2BU'
     }
@@ -44,25 +48,25 @@ const AuthForm = () => {
         'Content-Type':'application/json'
       }
     })
-    .then(res=> {
+    .then((res)=> {
       setIsLoding(false)
       if(res.ok){
         //... 
+        console.log("response is ok guru");
         return res.json();
       }else{
        return res.json().then(data=>{
           let errorMessage='Authentication failed!';
-          // if(data && data.error && data.error.message){
-          //   errorMessage=data.error.message;
-          // } 
+          console.log("This things comming over hre");
          
           throw new Error(errorMessage)
         })
       }
     }).then(data=>{
+      history.push('/');
       Ctx.login(data.idToken)
     }).catch(err =>{
-      alert(err.errorMessage)
+      console.log("this one is not fair")
     });
 
 
