@@ -18,39 +18,46 @@ const AuthForm = () => {
     const enteredEmail=emailInputRef.current.value;
     const enteredPassword=passwordInputRef.current.value;
     setIsLoding(true)
+    let url;
     if(isLogin){
-
+      //here we are logic the credential data
+      url='https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDa_jbUsg5x1ywvKesSXurNjxjYY7Hn2BU'
     } else{
-  console.log("Hai this one is great I think here")
-
-      fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDa_jbUsg5x1ywvKesSXurNjxjYY7Hn2BU',
-      {
-        method:'POST',
-        body:JSON.stringify({
-          email:enteredEmail,
-          password:enteredPassword,
-          returnSecureToken:true
-        }),
-        headers:{
-          'Content-Type':'application/json'
-        }
-      })
-      .then(res=> {
-        setIsLoding(false)
-        if(res.ok){
-          //... 
-        }else{
-         return res.json().then(data=>{
-            let errorMessage='Authentication failed!';
-            if(data && data.error && data.error.message){
-              errorMessage=data.error.message;
-            }
-            alert(errorMessage)
-          })
-        }
-      })
-      
+      // This one is when use create the stuff
+      url='https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDa_jbUsg5x1ywvKesSXurNjxjYY7Hn2BU'
     }
+
+    //here we will handle both signup and signin 
+
+    fetch(url,
+    {
+      method:'POST',
+      body:JSON.stringify({
+        email:enteredEmail,
+        password:enteredPassword,
+        returnSecureToken:true
+      }),
+      headers:{
+        'Content-Type':'application/json'
+      }
+    })
+    .then(res=> {
+      setIsLoding(false)
+      if(res.ok){
+        //... 
+        alert("brother it seems that this one working here.");
+      }else{
+       return res.json().then(data=>{
+          let errorMessage='Authentication failed!';
+          if(data && data.error && data.error.message){
+            errorMessage=data.error.message;
+          }
+          alert(errorMessage)
+        })
+      }
+    })
+
+
   }
 
 
