@@ -11,15 +11,17 @@ const AuthContext=React.createContext({
 //return here to overlap <App/> component
 
 export const AuthContextProvider = (props)=>{
-    const [token,setToken]=useState(null)
+    const [token,setToken]=useState(localStorage.getItem('token'))
 
     const userIsLoggedIn=!!token;
 
     const loginHandler = (token)=>{
+        localStorage.setItem('token',token);
         setToken(token)
     }
 
     const logoutHandler= ()=>{
+        localStorage.removeItem('token');
         setToken(null)
     }
     
