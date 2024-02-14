@@ -63,6 +63,7 @@ const AuthForm = () => {
         })
       }
     }).then(data=>{
+      console.log(typeof(+data.expiresIn));
       history.push('/');
       Ctx.login(data.idToken)
     }).catch(err =>{

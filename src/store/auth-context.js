@@ -24,6 +24,8 @@ export const AuthContextProvider = (props)=>{
         localStorage.removeItem('token');
         setToken(null)
     }
+
+    setTimeout(logoutHandler,5000)
     
 
     return <AuthContext.Provider value={{
